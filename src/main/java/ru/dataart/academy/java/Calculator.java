@@ -14,7 +14,7 @@ public class Calculator {
     public Integer getSum(List<Integer> firstNumber, List<Integer> secondNumber) {
         //Task implementation
 
-        int result = 0;
+        int result;
 
         // Using Collections.reverse() or Guava's Lists.reverse() and Iterator<T>
         result = getSumWithIterator(firstNumber, secondNumber);
@@ -37,7 +37,23 @@ public class Calculator {
      */
     public <T> List<T> getOddElements(List<T> list) {
         // Task implementation
-        return Collections.EMPTY_LIST;
+
+        // We can specify initial capacity
+        List<T> oddElements = new ArrayList<>(list.size()/2 + 1);
+
+        Iterator<T> iterator = list.iterator();
+        int i = 1;
+        while (iterator.hasNext()) {
+            if (i%2 != 0) {
+                oddElements.add(iterator.next());
+            } else {
+                iterator.next();
+            }
+            i++;
+        }
+
+//        return Collections.EMPTY_LIST;
+        return oddElements;
     }
 
     /**
@@ -50,7 +66,29 @@ public class Calculator {
      */
     public <T> List<T> getBounds(List<T> list) {
         // Task implementation
-        return Collections.EMPTY_LIST;
+        if (list.size() == 0) {
+            return new ArrayList<>(0);
+        }
+
+        List<T> boundsList = new ArrayList<>(list.size() > 1 ? 2 : 1);
+
+        Iterator<T> iterator = list.iterator();
+
+        // Adding a first element
+        boundsList.add(iterator.next());
+        if (list.size() == 1) {
+            return boundsList;
+        }
+
+        T element = null;
+        for (T t : list) {
+            element = t;
+        }
+
+        // Adding a last element
+        boundsList.add(element);
+//        return Collections.EMPTY_LIST;
+        return boundsList;
     }
 
     //==================================================================================================================
