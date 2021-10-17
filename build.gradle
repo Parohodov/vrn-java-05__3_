@@ -10,6 +10,21 @@ mainClassName = "ru.dataart.academy.java.Main"
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+dependencies {
+    // https://mvnrepository.com/artifact/com.google.guava/guava
+    implementation group: 'com.google.guava', name: 'guava', version: '31.0.1-jre'
+
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-collections4
+    implementation group: 'org.apache.commons', name: 'commons-collections4', version: '4.4'
+
+    testImplementation(
+            'org.junit.jupiter:junit-jupiter-api:5.1.0'
+    )
+    testRuntimeOnly(
+            'org.junit.jupiter:junit-jupiter-engine:5.1.0'
+    )
+}
+
 jar {
     baseName = 'homework'
     version = '0.0.1'
@@ -17,15 +32,6 @@ jar {
         attributes "Main-Class": "ru.dataart.academy.java.Main"
         attributes "Class-Path": configurations.compileClasspath.collect { it.absolutePath }.join(" ")
     }
-}
-
-dependencies {
-    testImplementation(
-            'org.junit.jupiter:junit-jupiter-api:5.1.0'
-    )
-    testRuntimeOnly(
-            'org.junit.jupiter:junit-jupiter-engine:5.1.0'
-    )
 }
 
 test {
