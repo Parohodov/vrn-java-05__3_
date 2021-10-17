@@ -54,8 +54,8 @@ public class Calculator {
     }
 
     //==================================================================================================================
-
-    public int getSumWithIterator(List<Integer> firstNumber, List<Integer> secondNumber) {
+    // Uses additional collections to save original ones in reversed order
+    private int getSumWithIterator(List<Integer> firstNumber, List<Integer> secondNumber) {
         int num1 = 0;
         int num2 = 0;
 
@@ -89,12 +89,14 @@ public class Calculator {
         return num1 + num2;
     }
 
-    public int getSumWithListIterator(List<Integer> firstNumber, List<Integer> secondNumber) {
+    // Uses ListIterator to walk over collections backwards
+    private int getSumWithListIterator(List<Integer> firstNumber, List<Integer> secondNumber) {
         int num1 = 0;
         int num2 = 0;
 
         // Fortunately a ListIterator can move backward that is very useful in this case
         // and this code can work with more abstract List<E> type
+        // and there is no need to create additional collections
         ListIterator<Integer> liter = firstNumber.listIterator(firstNumber.size());
         while(liter.hasPrevious()) {
             num1 = num1*10 + liter.previous();
@@ -108,6 +110,7 @@ public class Calculator {
         return num1 + num2;
     }
 
+    // Uses Apache's commons-collections4 ReverseListIterator to walk over collections backwards
     private int getSumWithReversedIterator(List<Integer> firstNumber, List<Integer> secondNumber) {
         int num1 = 0;
         int num2 = 0;
