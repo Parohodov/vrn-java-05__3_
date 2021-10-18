@@ -47,14 +47,14 @@ public class Calculator {
         }
 
         if (list.size() == 0) {
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
 
         if (list.size() == 1) {
             return list;
         }
 
-        List<T> oddElements = Collections.EMPTY_LIST;
+        List<T> oddElements;
 
         // Java Collection framework
 //        oddElements = getOddsWithIterator(list);
@@ -74,7 +74,7 @@ public class Calculator {
     public <T> List<T> getBounds(List<T> list) {
         // Task implementation
         if (list.size() == 0) {
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
 
         List<T> boundsList = new ArrayList<>();
@@ -136,8 +136,7 @@ public class Calculator {
         int num1 = 0;
         int num2 = 0;
 
-        // Fortunately a ListIterator can move backward that is very useful in this case
-        // and this code can work with more abstract List<E> type
+        // This code can work with more abstract List<E> type
         // and there is no need to create additional collections
         ListIterator<Integer> liter = firstNumber.listIterator(firstNumber.size());
         while(liter.hasPrevious()) {
