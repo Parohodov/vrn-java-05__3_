@@ -1,11 +1,10 @@
 package ru.dataart.academy.java;
 
 import com.google.common.collect.Lists;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.Predicate;
 import org.apache.commons.collections4.iterators.ReverseListIterator;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Calculator {
@@ -22,10 +21,10 @@ public class Calculator {
         int result;
 
         // Using Collections.reverse() or Guava's Lists.reverse() and Iterator<T>
-        result = getSumWithIterator(firstNumber, secondNumber);
+//        result = getSumWithIterator(firstNumber, secondNumber);
 
         // Using Java Collections Framework ListIterator<T>
-        result = getSumWithListIterator(firstNumber, secondNumber);
+//        result = getSumWithListIterator(firstNumber, secondNumber);
 
         // Using Apache's commons-collections4 ReverseListIterator
         result = getSumWithReversedIterator(firstNumber, secondNumber);
@@ -57,10 +56,6 @@ public class Calculator {
 
         List<T> oddElements = Collections.EMPTY_LIST;
 
-        // Apache CollectionUtils.select(collection, predicate) is strange to use here (as long as a List is given)
-        // but it operates with Collection<E> so it could be helpful sometimes
-        oddElements = getOddsWithPredicate(list);
-
         // Java Collection framework
 //        oddElements = getOddsWithIterator(list);
         oddElements = getOddsWithListIterator(list);
@@ -82,22 +77,19 @@ public class Calculator {
             return Collections.EMPTY_LIST;
         }
 
-        List<T> boundsList = new ArrayList<>(list.size() > 1 ? 2 : 1);
+        List<T> boundsList = new ArrayList<>();
 
         ListIterator<T> iterator = list.listIterator();
 
         // Adding a first element
         boundsList.add(iterator.next());
         if (list.size() == 1) {
-            return boundsList; // If an original list contains only one element than result list also does
+            // If an original list contains only one element than result list also does
+            // considering the tests
+            return boundsList;
         }
 
-//        T element = null;
-//        for (T t : list) {
-//            element = t; // When the circle ends the element variable will hold the last element
-//        }
-//        boundsList.add(element);
-
+        // Adding the last element
         iterator = list.listIterator(list.size());
         boundsList.add(iterator.previous());
 
@@ -120,22 +112,22 @@ public class Calculator {
         // The problem is that it's necessary to create new collections
 
         // Using Guava's Lists.reverse() (also Collections.reverse(firstReversed);)
-        Iterator<Integer> iter = Lists.reverse(firstNumber).iterator();
-        while(iter.hasNext()) {
-            num1 = num1*10 + iter.next();
+//        Iterator<Integer> iter = Lists.reverse(firstNumber).iterator();
+//        while(iter.hasNext()) {
+//            num1 = num1*10 + iter.next();
+//        }
+//        iter = Lists.reverse(secondNumber).iterator();
+//        while (iter.hasNext()) {
+//            num2 = num2*10 + iter.next();
+//        }
+
+        for (Integer integer : Lists.reverse(firstNumber)) {
+            num1 = num1*10 + integer;
         }
-        iter = Lists.reverse(secondNumber).iterator();
-        while (iter.hasNext()) {
-            num2 = num2*10 + iter.next();
+        for (Integer integer : Lists.reverse(secondNumber)) {
+            num2 = num2*10 + integer;
         }
 
-        // I like to use Idea's "iter" autocompletion, but it's not representative in terms of taking lessons
-//        for (Integer integer : firstList) {
-//            num1 = num1*10 + integer;
-//        }
-//        for (Integer integer : secondList) {
-//            num2 = num2*10 + integer;
-//        }
         return num1 + num2;
     }
 
@@ -213,29 +205,5 @@ public class Calculator {
         }
 
         return oddElements;
-    }
-
-    // Uses predicate with outer index
-    private <T> List<T> getOddsWithPredicate(List<T> list) {
-        // Apache's CollectionUtils.select(collection, predicate) return Collection<E> so we can operate on a list in abstract level
-
-        // This code needs an index to calculate odd elements, and predicate must know nothing about a collection (including the index)
-        // Also the predicate is an object of an inner anonymous class,so it only can use a field of an outer class
-        Collection<T> selectedList = CollectionUtils.select(list, new Predicate<T>() {
-            @Override
-            public boolean evaluate(T object) {
-                predicateCounter++; // This all doesn't look very good
-                if (predicateCounter%2 != 0) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        });
-        predicateCounter = 0;
-
-        // Or Guava's Collections2.filter(collection, predicate), it acts pretty the same
-
-        return (List<T>) selectedList;
     }
 }
